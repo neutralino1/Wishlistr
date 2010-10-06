@@ -1,0 +1,39 @@
+<h2><%= @list.title %></h2>
+<p><%= @list.description %></p>
+<p class="<%= @type %> notice"><%= @notice %></p>
+<h3>Items in your list</h3>
+<ul><table>
+<% total = 0 %>
+<% @items.each do |it| %>
+<% if it.name != nil:NilClass %>
+<tr><td><li><%= it.name %></li></td><td> <%= it.price %> €</td>
+<td>
+<%= link_to 'delete', [@user, @list, it], :method => :delete %>
+</td>
+</tr>
+<% total += it.price %>
+<% end %>
+<% end %>
+<% form_for [@user, @list, @item]  do |f| %>
+<tr><td><li> <%= f.text_field :name %></li></td><td> <%= f.text_field :price %> </td><td><%= f.submit 'add' %></td></tr>
+<% end %>
+</table>
+</ul>
+<span style="font-weight:bold;">Total amount : <%= total %>
+  € </span></br>
+<h3>People contributing to your list</h3>
+<ul><table>
+<% @contributors.each do |cont| %>
+<% if cont.username != nil:NilClass %>
+<tr><td><li><%= cont.username %></li></td><td> 
+<%= link_to 'delete', [@user, @list, cont], :method => :delete %></td></tr>
+<% end %>
+<% end %>
+<% form_for [@user, @list, @contributor]  do |f| %>
+<tr><td><li> <%= f.text_field :username %></li></td>
+<td> 
+<%= f.submit 'add' %></td></tr>
+<% end %>
+</table>
+</ul>
+<%= link_to 'Back', root_path %>

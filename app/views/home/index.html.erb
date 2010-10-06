@@ -1,0 +1,47 @@
+
+<% if logged_in? %>
+<h2>Welcome <%= @user.login %>!</h2>
+<p class="<%= @type %> notice"><%= @notice %></p>
+<div>
+  <h3>Your lists</h3>
+  <ul>
+    <% @lists.each do |list| %>
+    <div style="width:400px;">
+      <div style="width:70%;float:left;">
+	<li><%= link_to list.title, user_list_path(@user, list) %>
+	  (<%= list.items.length %> items, <%= list.contributors.length %>
+	  contributors)</li>
+      </div>
+      <div style="float:right;">
+	<%= link_to 'Edit', edit_user_list_path(@user, list) %>
+	<%= link_to 'Delete', [@user, list], :method =>:delete %>
+      </div>
+    </div>
+    <% end %>
+  </ul>
+<div style="clear:both;"></div>
+</div>
+<div>
+  <h3>Lists you contribute to</h3>
+  <ul>
+  <% @contribs.each do |cont| %>
+  <li><%= cont.title %> by <%= cont.user.login %></li>
+  <% end %>
+  </ul>
+</div>
+<%= link_to 'New list', new_user_list_path(@user) %>
+<%= link_to 'Log out', logout_path %>
+<% else %>
+<h2>Welcome to Wishlister!</h2>
+<h3>Log In</h3>
+<%= form_tag session_path do -%>
+<p><%= label_tag 'login' %><br />
+<%= text_field_tag 'login', @login %></p>
+<p><%= label_tag 'password' %><br/>
+<%= password_field_tag 'password', nil %></p>
+<p><%= submit_tag 'Log in' %></p>
+<% end -%>
+
+<%= link_to 'Sign up', new_user_path %></br>
+   
+<% end %>

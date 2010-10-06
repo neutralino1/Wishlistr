@@ -1,0 +1,25 @@
+html{
+    font-family:arial;
+    font-size:12px;
+}
+
+.notice{
+    font-weight:bold;
+}
+
+.fail{
+color:red;
+}
+
+.success{
+color:green;
+}
+
+a{
+text-decoration:none;
+color:blue;
+}
+
+a:visited{
+color:blue;
+}
