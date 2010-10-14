@@ -1,0 +1,11 @@
+$("#notice").addClass("success");
+$("#notice").html("Item <%= @item.name %> was added!");
+$("#notice").show();
+$("#notice").fadeOut(2000);
+$('#theList tr:last').before("<tr id='it_<%= @item.id %>'><td><%= @item.name %></td><td><%= @item.price %> €</td><td><%= escape_javascript button_to 'Delete', [@user, @list, @item], :method => :delete %></td></tr>");
+$(".button_to").submitWithAjax();
+$("input#item_name").attr("value","");
+$("input#item_price").attr("value","");
+var total = parseFloat($("#total").html());
+var price = parseFloat("<%= @item.price %>");
+$("#total").html(total+price);
