@@ -1,0 +1,31 @@
+<h2>Welcome <%= @user.login %>!</h2>
+<p class="<%= @type %> notice"><%= @notice %></p>
+<div>
+  <h3>Your lists</h3>
+  <ul>
+    <% @lists.each do |list| %>
+    <div style="width:400px;">
+      <div style="width:70%;float:left;">
+	<li><%= link_to list.title, user_list_path(@user, list) %>
+	  (<%= list.items.length %> items, <%= list.contributors.length %>
+	  contributors)</li>
+      </div>
+      <div style="float:right;">
+	<%= link_to 'Edit', edit_user_list_path(@user, list) %>
+	<%= button_to 'Delete', [@user, list], :method =>:delete %>
+      </div>
+    </div>
+    <% end %>
+  </ul>
+<div style="clear:both;"></div>
+<%= link_to 'New list', new_user_list_path(@user) %>
+</div>
+<div>
+  <h3>Lists from your relatives</h3>
+  <ul>
+  <% @contribs.each do |cont| %>
+  <li><%= cont.title %> by <%= cont.user.login %></li>
+  <% end %>
+  </ul>
+</div>
+<%= link_to 'Log out', logout_path %>

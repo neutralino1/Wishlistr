@@ -1,0 +1,17 @@
+$(function() {
+	$("#addIt").click(function() {
+		$('#addform').before('<tr><td>sdd</td><td>sd</td><td></td></tr>');
+	    });
+	
+	var dataString = 'item[name]='+name+'&item[price]='+price;
+
+	$.ajax({
+		type: "POST",
+		    url: "/users/1/lists/1/items",
+		    data: dataString,
+		    success: function() {
+		    $('#addform').before('<tr><td>sdd</td><td>sd</td><td></td></tr>');
+		}
+	    });
+	return false;
+    });

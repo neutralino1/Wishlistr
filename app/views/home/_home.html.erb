@@ -4,14 +4,14 @@
   <% if @lists.count > 0 %>
   <h3>Your lists</h3>
   <table>
-<tr><th></th><th>items</th><th>relatives</th><th>Edit</th><th>Delete</th>
+<tr><th></th><th>items</th><th>relatives</th><th></th>
     <% @lists.each do |list| %>
-    <tr class="listline" id="list_<%= list.id %>">
+    <tr class="list_item" id="list_<%= list.id %>">
       <td><%= link_to list.title, user_list_path(@user, list) %></td>
       <td><%= list.items.length %></td>
       <td><%= list.contributors.length %></td>
-      <td><%= link_to 'Edit', edit_user_list_path(@user, list) %></td>
-      <td><%= button_to 'Delete', [@user, list], :method =>:delete %></td>
+      <td class="buttons"><%= link_to(image_tag("edit.gif"), edit_user_list_path(@user, list), :class => 'item_edit_btn') %>&nbsp;&nbsp;<%= link_to(image_tag("delete.gif"), user_list_path(@user, list), :class => 'item_delete_btn') %></td>
+<!--      <td><%= button_to 'Delete', [@user, list], :method =>:delete %></td>-->
     </tr>
     <% end %>
   </table>

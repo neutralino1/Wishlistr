@@ -11,7 +11,7 @@ class ListsController < ApplicationController
   def show
     if logged_in?
       @list = List.find(params[:id])
-      @user = User.find(params[:id])
+      @user = User.find(params[:user_id])
       @items = @list.items
       @contributors = @list.contributors
       @item = @list.items.build
@@ -51,13 +51,15 @@ class ListsController < ApplicationController
       end
     end
   end
+
   def destroy
     @list = List.find(params[:id])
     @list.destroy
 
     respond_to do |format|
-      format.html { redirect_to(root_path, :notice => 'List was deleted', :type => :success) }
-      format.xml  { head :ok }
+      format.js
+      #format.html { redirect_to(root_path, :notice => 'List was deleted', :type => :success) }
+      #format.xml  { head :ok }
     end
   end
 

@@ -1,0 +1,2 @@
+
+$('#listOfItems').html('<%= escape_javascript(render(:partial => 'lists/listOfItems')) %>');

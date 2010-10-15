@@ -1,0 +1,27 @@
+<table id="theList">
+  <% @items.each do |it| %>
+  <% if it.name != nil:NilClass %>
+  <tr id="it_<%= it.id %>">
+    <td class="it_name"><%= it.name %></td>
+    <td class="it_price"><%= it.price %> €</td>
+    <td><%= button_to 'Delete', [@user, @list, it], :method => :delete %></td>
+  </tr>
+  <% if it.price != nil:NilClass %>
+  <% @total += it.price %>
+  <% end %>
+  <% end %>
+  <% end %>
+  <tr>  <% form_for [@user, @list, @item] do |f| %>
+    <td> <%= f.text_field :name %></td>
+    <td><%= f.text_field :price %> </td>
+    <td><%= f.submit 'add' %></td>
+    <% end %>
+  </tr>
+  <!--  <tr>
+    <form name="add" action="" method="post" id="add">
+     <td><input id="name" name="name" type="text"/></td>
+     <td><input id="price" name="price" type="text"/></td>
+     <td><input id="sub" value="add" type="submit"/></td>
+    </form>
+  </tr>-->
+</table>
