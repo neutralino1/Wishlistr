@@ -1,0 +1,35 @@
+<h2>Welcome <%= @user.login %>!</h2>
+<p class="<%= @type %> notice"><%= @notice %></p>
+<div>
+  <% if @lists.count > 0 %>
+  <h3>Your lists</h3>
+  <table>
+<tr><th></th><th>items</th><th>relatives</th><th>Edit</th><th>Delete</th>
+    <% @lists.each do |list| %>
+    <tr class="listline" id="list_<%= list.id %>">
+      <td><%= link_to list.title, user_list_path(@user, list) %></td>
+      <td><%= list.items.length %></td>
+      <td><%= list.contributors.length %></td>
+      <td><%= link_to 'Edit', edit_user_list_path(@user, list) %></td>
+      <td><%= button_to 'Delete', [@user, list], :method =>:delete %></td>
+    </tr>
+    <% end %>
+  </table>
+  <%= link_to 'New list', new_user_list_path(@user) %>
+  <% else %>
+  <h3>You don't have any list, <%= link_to 'create one', new_user_list_path(@user) %>!</h3>
+  <% end %>
+</div>
+<div>
+  <% if @contribs.count > 0 %>
+  <h3>Lists from your relatives</h3>
+  <ul>
+    <% @contribs.each do |cont| %>
+    <li><%= cont.title %> by <%= cont.user.login %></li>
+    <% end %>
+  </ul>
+  <% else %>
+  <h3>You haven't been notified of any lists</h3>
+  <% end %>
+</div>
+<%= link_to 'Log out', logout_path %>
