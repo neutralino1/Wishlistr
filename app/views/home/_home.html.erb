@@ -1,14 +1,15 @@
-<h2>Welcome <%= @user.login %>!</h2>
-<p class="<%= @type %> notice"><%= @notice %></p>
 <div>
   <% if @lists.count > 0 %>
-  <h3>Your lists</h3>
+  <h3><span>Your lists</span></h3>
   <table>
-<tr><th></th><th>items</th><th>relatives</th><th></th>
-    <% @lists.each do |list| %>
+    <tr><th></th><th>items</th><th>relatives</th><th></th>
+      <% @lists.each do |list| %>
     <tr class="list_item" id="list_<%= list.id %>">
       <td><%= link_to list.title, user_list_path(@user, list) %></td>
-      <td><%= list.items.length %></td>
+      <td>
+	<% a = list.items.reject {|i| i.viewablebyowner == false} %>
+	<%= a.length %>
+      </td>
       <td><%= list.contributors.length %></td>
       <td class="buttons"><%= link_to(image_tag("edit.gif"), edit_user_list_path(@user, list), :class => 'item_edit_btn') %>&nbsp;&nbsp;<%= link_to(image_tag("delete.gif"), user_list_path(@user, list), :class => 'item_delete_btn') %></td>
 <!--      <td><%= button_to 'Delete', [@user, list], :method =>:delete %></td>-->
@@ -22,14 +23,14 @@
 </div>
 <div>
   <% if @contribs.count > 0 %>
-  <h3>Lists from your relatives</h3>
+  <h3><span>Lists from your relatives</span></h3>
   <ul>
     <% @contribs.each do |cont| %>
-    <li><%= cont.title %> by <%= cont.user.login %></li>
+    <li><%= link_to cont.title, user_list_path(cont.user, cont) %> by <%= cont.user.login %></li>
     <% end %>
   </ul>
   <% else %>
   <h3>You haven't been notified of any lists</h3>
   <% end %>
 </div>
-<%= link_to 'Log out', logout_path %>
+

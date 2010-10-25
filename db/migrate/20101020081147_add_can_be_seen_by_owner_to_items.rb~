@@ -1,0 +1,9 @@
+class AddCanBeSeenByOwnerToItems < ActiveRecord::Migration
+  def self.up
+    add_column :items, :canbeseenbyowner, :boolean
+  end
+
+  def self.down
+    remove_column :items, :canbeseenbyowner
+  end
+end

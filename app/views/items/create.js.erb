@@ -1,8 +1,15 @@
 if ("<%= @item.save %>" == "true")
 {  
 notify("success", "Item <%= @item.name %> was added!");
-$('#theList tr:last').before("<tr id='it_<%= @item.id %>'><td><%= @item.name %></td><td><%= @item.price %> €</td><td><%= escape_javascript link_to(image_tag('delete.gif'), user_list_item_path(@user, @list, @item), :class => 'item_delete_btn') %></td></tr>");
-$("a.item_delete_btn").submitDeleteLinkWithAjax();
+var content = "<table id='it_<%= @item.id %>' class='list_item'><tr>";
+content += "<td class='it_bullet'>&gt;</td>";
+content += "<td class='it_name'><%= @item.name %></td>";
+content += "<td class='it_price'><%= @item.price %> €</td>";
+content += "<td class='it_author'><%= if !@owns then you(@item.addedby, current_user.login) end %></td>";
+content += "<td class='buttons'><%= escape_javascript link_to(image_tag('edit.gif'), edit_user_list_item_path(@user, @list, @item), :class => "item_edit_btn") %> &nbsp;&nbsp;<%= escape_javascript link_to(image_tag('delete.gif'), user_list_item_path(@user, @list, @item), :class => 'item_delete_btn') %></td>";
+content += "</tr></table>";
+$('#addForm').before(content);
+setupButtons();
 $("input#item_name").attr("value","");
 $("input#item_price").attr("value","");
 var total = parseFloat($("#total").html());

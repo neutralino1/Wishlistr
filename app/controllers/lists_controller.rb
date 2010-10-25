@@ -10,10 +10,31 @@ class ListsController < ApplicationController
 
   def show
     if logged_in?
-      @list = List.find(params[:id])
       @user = User.find(params[:user_id])
-      @items = @list.items
+      @list = List.find(params[:id])
       @contributors = @list.contributors
+      isCont = false
+      @contributors.each do |c|
+        if current_user.login == c.username
+          isCont = true
+          break
+        end
+      end
+      if current_user == @user
+        @owns = true
+      elsif isCont
+        @owns = false
+      else redirect_to root_path
+      end
+      @itemsByOwner = []
+      @itemsByOthers = []
+      @list.items.each do |i|
+        if i.addedby == @user.login
+          @itemsByOwner += [i]
+        else
+          @itemsByOthers += [i]
+        end
+      end
       @item = @list.items.build
       @contributor = @list.contributors.build
       @notice = params[:notice]

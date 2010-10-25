@@ -1,29 +1,93 @@
-<table id="theList">
-  <% @items.each do |it| %>
-  <% if it.name != nil:NilClass %>
-  <tr id="it_<%= it.id %>" class="list_item">
+<h4>Items added by <%= you(@user.login, current_user.login) %></h4>
+<% i = 0 %>
+<% @itemsByOwner.each do |it| %>
+<% if it.price != nil %>
+<% i+=1 %>
+<table class="list_item <%= oddity(i) %>" id="it_<%= it.id %>"><tr>
+    <td class="it_bullet">&gt;</td>
     <td class="it_name"><%= it.name %></td>
     <td class="it_price"><%= it.price %> €</td>
-    <!--<td><%= button_to 'del', [@user, @list, it], :method => :delete,
-    :class => 'item_delete_btn' %></td>-->
-    <td class="buttons"><%= link_to(image_tag("delete.gif"), user_list_item_path(@user, @list, it), :class => 'item_delete_btn') %></td>
-  </tr>
-  <% if it.price != nil:NilClass %>
-  <% @total += it.price %>
-  <% end %>
-  <% end %>
-  <% end %>
-  <tr>  <% form_for [@user, @list, @item] do |f| %>
-    <td> <%= f.text_field :name %></td>
-    <td><%= f.text_field :price %> </td>
-    <td><%= f.submit 'add' %></td>
-    <% end %>
-  </tr>
-  <!--  <tr>
-    <form name="add" action="" method="post" id="add">
-     <td><input id="name" name="name" type="text"/></td>
-     <td><input id="price" name="price" type="text"/></td>
-     <td><input id="sub" value="add" type="submit"/></td>
-    </form>
-  </tr>-->
-</table>
+    <td class="it_author"></td>
+    <td class="buttons">
+      <% if @owns %>
+      <%= link_to(image_tag("edit.gif"),
+	  edit_user_list_item_path(@user, @list, it), :class => 'item_edit_btn') %>&nbsp;&nbsp;
+      <%= link_to(image_tag("delete.gif"),
+	  user_list_item_path(@user, @list, it), :class =>
+      'item_delete_btn') %>
+      <% end %>
+    </td>
+</tr></table>
+<% if it.price != nil:NilClass %>
+<% @total += it.price %>
+<% end %>
+<% end %>
+<% end %>
+<% if @owns %>
+<%= form_for [@user, @list, @item] do |f| %>
+<table id="addForm"><tr>
+    <td class="it_bullet">&gt;</td>
+    <td class="it_name"> 
+      <%= f.hidden_field :addedby, :value => current_user.login %>
+      <%= f.text_field :name, :size => "30" %></td>
+    <td class="it_price"> <%= f.text_field :price, :size => "10" %> </td>
+    <td class="it_author">    
+      <% if !@owns %>
+      Can be seen by <%= @user.login %>?
+      <%= f.check_box :viewablebyowner %>
+      <% end %>
+    </td>
+    <td class="buttons"> <%= f.submit 'add', :class => 'orange_btn' %></td>
+  </tr></table>
+<% end %>
+<% end %>
+<h4>Items added by <%= possesive(@user.login, current_user) %>
+  relatives</h4>
+<% i = 0 %>
+<% @itemsByOthers.each do |it| %>
+<% if !@owns or it.viewablebyowner %>
+<% if it.price != nil %>
+<% i += 1 %>
+<table class="list_item <%= oddity(i) %>" id="it_<%= it.id %>"><tr>
+    <td class="it_bullet">&gt;</td>
+    <td class="it_name"><%= it.name %></td>
+    <td class="it_price"><%= it.price %> €</td>
+    <td class="it_author">
+      <% if @owns %>
+      one of your relatives
+      <% else %>
+      <%= you(it.addedby, current_user.login) %>
+      <% end %>
+    </td>
+    <td class="buttons">
+      <% if it.addedby == current_user.login %>
+      <%= link_to(image_tag("edit.gif"),
+	  edit_user_list_item_path(@user, @list, it), :class => 'item_edit_btn') %>&nbsp;&nbsp;
+      <%= link_to(image_tag("delete.gif"),
+	  user_list_item_path(@user, @list, it), :class =>
+      'item_delete_btn') %>
+      <% end %>
+    </td>
+</tr></table>
+<% if it.price != nil:NilClass %>
+<% @total += it.price %>
+<% end %>
+<% end %>
+<% end %>
+<% end %>
+<% if !@owns %>
+<%= form_for [@user, @list, @item] do |f| %>
+<table id="addForm"><tr>
+    <td class="it_bullet">&gt;</td>
+    <td class="it_name"> 
+      <%= f.hidden_field :addedby, :value => current_user.login %>
+      <%= f.text_field :name, :size => "30" %></td>
+    <td class="it_price"> <%= f.text_field :price, :size => "10" %> </td>
+    <td class="it_author">    
+      Can be seen by <%= @user.login %>?<br/>
+      <%= f.check_box :viewablebyowner %>
+    </td>
+    <td class="buttons"> <%= f.submit 'add', :class => 'orange_btn' %></td>
+  </tr></table>
+<% end %>
+<% end %>

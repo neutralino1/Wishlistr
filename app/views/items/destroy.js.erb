@@ -3,7 +3,7 @@ $("#notice").addClass("success");
 $("#notice").html("Item <%= @item.name %> was removed!");
 $("#notice").show();
 $("#notice").fadeOut(2000);
-$("tr#it_<%= params[:id] %>").remove();
+$("table#it_<%= params[:id] %>").remove();
 var total = parseFloat($("#total").html());
 var price = parseFloat("<%= @item.price %>");
 $("#total").html(total-price);

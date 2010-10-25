@@ -1,0 +1,13 @@
+<div id="header">
+  <% if !logged_in? %>
+  <div id="loginbox">
+<%= form_tag session_path do -%>
+<div id="loginfields">
+<%= text_field_tag 'login', @login %>
+<%= password_field_tag 'password', nil, :value => 'password' %></div>
+<div class="fleft"><%= link_to 'Create an account', new_user_path %></div>
+<div class="fright"><%= submit_tag 'Log in', :class => 'orange_btn' %></div>
+<% end %>
+  </div>
+  <% end %>
+</div>

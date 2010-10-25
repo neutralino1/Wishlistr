@@ -1,0 +1,12 @@
+var content = '<table id="it_<%= @item.id %>" class="list_item"><tr>';
+content += '<td class="it_name"><%= @item.name %></td>';
+content += '<td class="it_price"><%= @item.price %> €</td>';
+content += '<td class="it_author"><%= you(@item.addedby, current_user.login) %></td>';
+content += '<td class="buttons"><%= escape_javascript	link_to(image_tag("edit.gif"),
+	      edit_user_list_item_path(@user, @list, @item), :class => "item_edit_btn") %> &nbsp;&nbsp;<%= escape_javascript link_to(image_tag("delete.gif"), user_list_item_path(@user, @list, @item), :class => "item_delete_btn") %></td>';
+content += '</tr></table>';
+$("form#edit_item_<%= @item.id %>").replaceWith(content);
+setupButtons();
+var total = parseFloat($("#total").html());
+var price = parseFloat("<%= @item.price %>");
+//$("#total").html(total+price);

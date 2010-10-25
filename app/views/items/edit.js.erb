@@ -1,0 +1,23 @@
+var tr = $("table#it_<%= @item.id %>");
+var content = '<%= form_for [@user, @list, @item] do |f| %>';
+content += '<table id="it_<%= @item.id %>" class="list_item"><tr>';
+content += '<td class="it_name"><%= f.hidden_field :addedby, :value => current_user.login %><%= f.text_field :name, :value=> @item.name %></td>';
+content += '<td class="it_price"><%= f.text_field :price, :value=> @item.price, :size => "20" %></td>';
+
+content += '<td class="it_author"><%= you(@item.addedby, current_user.login) %></td>';
+content += '<td class="buttons"><%= f.submit "save" %></td>';
+content += '</tr></table>';
+content += '<% end %>';
+tr.replaceWith(content);
+$(".edit_item").submitWithAjax();
+var total = parseFloat($("#total").html());
+var price = parseFloat("<%= @item.price %>");
+var total = total-price;
+$("table#it_<%= @item.id %>").find("input#item_price").keyup( function() {
+var val = parseFloat($(this).val());
+if (isNaN(val)){
+   val = 0;
+   $(this).attr("value","");
+}
+$("#total").html(total+val);
+});

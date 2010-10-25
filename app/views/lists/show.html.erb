@@ -1,8 +1,17 @@
 <h2><%= @list.title %></h2>
+<% if !@owns %>
+by <%= @user.login %>.
+<% end %>
 <p><%= @list.description %></p>
-<h3>Items in your list</h3>
+<h3>
+<% if @itemsByOwner.count > 0 %>
+Items in <%= possesive(@user.login, current_user.login) %> list:
+<% else %>
+<%= possesive(@user.login, current_user.login) %> list is empty!
+<% end %>
+</h3>
 <% @total = 0 %>
-<div id="listOfItems">
+<div id="listOfItems" class="rounded">
   <%= render :partial => 'listOfItems' %>
 </div>
 <span style="font-weight:bold;">Total amount : 
@@ -17,15 +26,30 @@
   <% end %>
   <% end %>
 <p>
+
+  <% if @owns %>
   <% if contlist.count > 0 %>
-  <%= englishJoin(contlist)+' '+have(contlist.count) %> been notified
-  of this list.
+  <%= englishJoin(contlist)+' ' %>
+  <%= have(contlist.count) %> 
+  been notified of this list.
   <% else %>
   You haven't notified anybody of this list.
   <% end %>
+  <% else %>
+  <% if contlist.count > 0 %>
+  You 
+  <% if contlist.count > 1 %>
+  and 
+  <% end %>
+  <%= englishJoin(contlist.reject{|e| e == current_user.login})+' ' %>
+  have been notified of this list.
+  <% else %>
+  Nobody was notified of this list.
+  <% end %>
+  <% end %>
 </p>
 <% form_for [@user, @list, @contributor]  do |f| %>
-<%= f.text_field :username %> <%= f.submit 'add' %>
+<%= f.text_field :username %> <%= f.submit 'add', :class => 'orange_btn' %>
 <% end %>
 
 <%= link_to 'Back', root_path %>

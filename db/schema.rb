@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100928063400) do
+ActiveRecord::Schema.define(:version => 20101020081147) do
 
   create_table "contributors", :force => true do |t|
     t.integer  "list_id"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(:version => 20100928063400) do
     t.integer  "list_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "addedby"
+    t.boolean  "viewablebyowner"
   end
 
   create_table "lists", :force => true do |t|

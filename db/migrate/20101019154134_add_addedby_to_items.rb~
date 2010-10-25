@@ -1,0 +1,9 @@
+class AddAddedbyToItems < ActiveRecord::Migration
+  def self.up
+    add_column :items, :addedby, :integer
+  end
+
+  def self.down
+    remove_column :items, :addedby
+  end
+end
